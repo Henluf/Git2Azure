@@ -5,7 +5,7 @@ on:
     tags: ["v*.*.*"]
 
 env:
-  IMAGE_NAME: trackDevOps-Test
+  IMAGE_NAME: track-dev-ops
 
 jobs:
   build:
