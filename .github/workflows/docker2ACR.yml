@@ -51,7 +51,7 @@ jobs:
           acrName: ${{ secrets.ACR_ENDPOINT }}
           acrUsername: ${{ secrets.ACR_USERNAME }}
           acrPassword: ${{ secrets.ACR_PASSWORD }}
-          imageToDeploy: track-dev-ops:v0.0.4
+          imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/track-dev-ops:v0.0.4
           resourceGroup: trackdev-Exp02
           containerAppName: azure-container-test
 
