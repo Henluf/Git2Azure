@@ -48,7 +48,7 @@ jobs:
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          acrName: ${{ secrets.ACR_ENDPOINT }}
+          acrName: ${{ secrets.ACR_NAME }}
           acrUsername: ${{ secrets.ACR_USERNAME }}
           acrPassword: ${{ secrets.ACR_PASSWORD }}
           imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/track-dev-ops:v0.0.4
