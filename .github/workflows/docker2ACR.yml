@@ -5,7 +5,10 @@ on:
     tags: ["v*.*.*"]
 
 env:
-  IMAGE_NAME: track-dev-ops
+  imageName: "track-dev-ops"
+  containerName: "azure-container-test"
+  resourceGroupName: "trackdev-Exp02"
+  locationName: "germanywestcentral"
 
 jobs:
   build:
@@ -29,13 +32,20 @@ jobs:
       - name: Build Go Project
         run: |
           cd ./azureContainerTest
-          go build -v ./...    
+          go build -v ./...
+
+  publish:
+    needs: build
+    name: Publish container image
+    runs-on: ubuntu-latest
+    steps:
       - name: Log into registry
         uses: docker/login-action@v1
         with:
           registry: ${{ secrets.ACR_ENDPOINT }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
+
       - name: Build & Push
         uses: docker/build-push-action@v2
         with:
@@ -43,17 +53,38 @@ jobs:
           file: ./azureContainerTest/Dockerfile
           build-args: |
             version=${{ steps.tag.outputs.tag }}
-          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.IMAGE_NAME }}:${{ steps.tag.outputs.tag }}
-      
+          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ steps.tag.outputs.tag }}
+
+  deploy:
+    needs: publish
+    name: Deploy container image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure Login
+        uses: Azure/login@v2.1.1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          # Set this value to true to enable Azure PowerShell Login in addition to Azure CLI login
+          enable-AzPSSession: true
+ 
+      - name: Create a new resource group in Azure
+        uses: Azure/powershell@v2
+        with:
+            # Specify the Az PowerShell script here.
+            inlineScript: New-AzResourceGroup -Name ${{ env.resourceGroupName }} -location ${{ env.locationName }} -Force
+            # Azure PS version to be used to execute the script, example: 1.8.0, 2.8.0, 3.4.0. To use the latest version, specify "latest".
+            azPSVersion: latest
+
       - name: Build and deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
           acrName: ${{ secrets.ACR_NAME }}
           acrUsername: ${{ secrets.ACR_USERNAME }}
           acrPassword: ${{ secrets.ACR_PASSWORD }}
-          imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/track-dev-ops:v0.0.4
-          resourceGroup: trackdev-Exp02
-          containerAppName: azure-container-test
+          imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ steps.tag.outputs.tag }}
+          resourceGroup: ${{ env.resourceGroupName }}
+          containerAppName: ${{ env.containerName }}
+
 
 
           
