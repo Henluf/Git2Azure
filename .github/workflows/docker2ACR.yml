@@ -7,7 +7,7 @@ on:
 env:
   imageName: "track-dev-ops"
   containerName: "azure-container-test"
-  resourceGroupName: "trackdev-Exp02"
+  resourceGroupName: "trackdev-Exp03"
   locationName: "germanywestcentral"
   tagName: ""
 
