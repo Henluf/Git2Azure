@@ -89,7 +89,7 @@ jobs:
           acrName: ${{ secrets.ACR_NAME }}
           acrUsername: ${{ secrets.ACR_USERNAME }}
           acrPassword: ${{ secrets.ACR_PASSWORD }}
-          imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ needs.build.outputs.tagName }}
+          imageToDeploy: ${{ env.imageName }}:${{ needs.build.outputs.tagName }}
           resourceGroup: ${{ env.resourceGroupName }}
           containerAppName: ${{ env.containerName }}
 
