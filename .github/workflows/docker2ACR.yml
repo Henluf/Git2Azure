@@ -9,6 +9,7 @@ env:
   containerName: "azure-container-test"
   resourceGroupName: "trackdev-Exp02"
   locationName: "germanywestcentral"
+  tagName: ""
 
 jobs:
   build:
@@ -20,6 +21,9 @@ jobs:
       - name: Get tag
         id: tag
         uses: dawidd6/action-get-tag@v1
+      - name: Set tag env
+        env:
+          tagName: ${{ steps.tag.outputs.tag }}          
       - name: Setup Go
         uses: actions/setup-go@v5.3.0
         with:
