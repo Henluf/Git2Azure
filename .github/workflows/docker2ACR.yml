@@ -61,7 +61,7 @@ jobs:
           tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ needs.build.outputs.tagName }}
 
   deploy:
-    needs: publish
+    needs: [publish, build]
     name: Deploy container image
     runs-on: ubuntu-latest
     steps:
@@ -86,7 +86,7 @@ jobs:
           acrName: ${{ secrets.ACR_NAME }}
           acrUsername: ${{ secrets.ACR_USERNAME }}
           acrPassword: ${{ secrets.ACR_PASSWORD }}
-          imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ steps.tag.outputs.tag }}
+          imageToDeploy: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ needs.build.outputs.tagName }}
           resourceGroup: ${{ env.resourceGroupName }}
           containerAppName: ${{ env.containerName }}
 
