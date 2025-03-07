@@ -12,17 +12,19 @@ env:
   tagName: ""
 
 jobs:
-  build:
+  build:  
     name: Build container image
     runs-on: ubuntu-latest
+
+    outputs:
+       tagName: ${{ steps.tag.outputs.tag }}
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Get tag
         id: tag
-        uses: dawidd6/action-get-tag@v1        
-      - name: Set ENV tag
-        run: echo "tagName=${{ steps.tag.outputs.tag }}" >> $GITHUB_ENV
+        uses: dawidd6/action-get-tag@v1             
       - name: Setup Go
         uses: actions/setup-go@v5.3.0
         with:
@@ -56,7 +58,7 @@ jobs:
           file: ./azureContainerTest/Dockerfile
           build-args: |
             version=${{ steps.tag.outputs.tag }}
-          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ env.tagName }}
+          tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ needs.build.outputs.tagName }}
 
   deploy:
     needs: publish
