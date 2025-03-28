@@ -1,5 +1,6 @@
 name: Docker mit AZ-Bordmitteln deployen
-on: [push]
+on:
+    workflow_dispatch:
 
 env:
   imageName: "track-dev-ops"
@@ -54,7 +55,7 @@ jobs:
     - name: 'Deploy to Azure Web App for Container'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.WebApp_Name }}
+        app-name: ${{ env.containerName }}
         images: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ env.tagName }}
  
     - name: Azure logout
