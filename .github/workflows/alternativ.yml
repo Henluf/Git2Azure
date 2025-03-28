@@ -44,7 +44,7 @@ jobs:
         push: true
         file: ./azureContainerTest/Dockerfile
         build-args: |
-            version=${{ steps.tag.outputs.tag }}
+            version=${{ env.tagName }}
             tags: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ env.tagName }}
 
     - name: 'Azure authentication'
