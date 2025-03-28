@@ -55,7 +55,7 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.WebApp_Name }}
-        images: ${{ secrets.ACR_ENDPOINT }}/nodejsapp:${{ github.sha }}
+        images: ${{ secrets.ACR_ENDPOINT }}/${{ env.imageName }}:${{ env.tagName }}
  
     - name: Azure logout
       run: |
