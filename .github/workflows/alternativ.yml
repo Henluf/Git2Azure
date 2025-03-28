@@ -1,4 +1,4 @@
-name: Docker mit AZ-Bordmitteln deployen
+name: Docker mit AZ-Bordmitteln bauen und deployen
 on:
     workflow_dispatch:
 
