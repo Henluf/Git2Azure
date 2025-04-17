@@ -50,6 +50,8 @@ jobs:
     name: Publish container image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Dowload artifact
         uses: actions/download-artifact@v4
         with:
