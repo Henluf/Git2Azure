@@ -7,4 +7,4 @@ RUN ls -al
 
 EXPOSE 31415/tcp
 
-CMD "ls -al && ./azureContainerTest"
+CMD ["ls","-al"]
