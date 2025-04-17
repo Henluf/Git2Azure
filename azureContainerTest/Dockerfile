@@ -1,8 +1,8 @@
 FROM ubuntu:latest
 LABEL authors="Azureman"
 
-ADD azTest /azTest
-RUN chmod a+rwx azTest/azTest
+COPY azTest /azTest
+RUN chmod a+rwx azTest
 
 EXPOSE 31415/tcp
 
