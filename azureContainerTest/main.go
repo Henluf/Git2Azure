@@ -1,5 +1,6 @@
 package main
 
+import "time"
 import "github.com/gin-gonic/gin"
 
 func main() {
