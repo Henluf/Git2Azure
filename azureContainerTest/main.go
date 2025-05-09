@@ -7,7 +7,7 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/exp01/test", func(c *gin.Context) {
-		time.Sleep(3 * time.Second)	
+		time.Sleep(30 * time.Second)	
 		if c.Query("EXP01-KEY") == "H3r34r3Dr4g0ns" {
 
 			c.JSON(200, gin.H{
